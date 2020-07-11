@@ -4,10 +4,10 @@
     "description": "shopping site",
     "main": "app.js",
     "scripts": {
+        "heroku": "node app.js",
+        "start": "NODE_ENV=development nodemon app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start-server": "node app.js",
-        "heroku": "NODE_ENV=production node app.js",
-        "start": "NODE_ENV=development nodemon app.js"
+        "start-server": "node app.js"
     },
     "author": "tklk",
     "devDependencies": {
@@ -36,4 +36,3 @@
         "stripe": "^6.12.1"
     }
 }
-  

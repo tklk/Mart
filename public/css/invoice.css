@@ -1,0 +1,131 @@
+.invoice {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.invoice__head{
+    width: 100%;
+    border: 0;
+    text-align: center;
+    padding: 0;
+    border-spacing: 0;
+}
+
+.invoice__head__desc {
+    vertical-align: text-top;
+    text-align: left;
+}
+
+.order__summary,
+.payment__summary {
+    width: 100%;
+    border: 0;
+    text-align: center;
+    padding: 0;
+    border-spacing: 0;
+    background-color: #000000;
+}
+
+.order__table {
+    width: 100%;
+    border: 0;
+    text-align: left; /*center*/
+    padding: 0;
+    border-spacing: 3;
+    background-color: #000000;
+}
+
+.order__table tr,
+.order__table td,
+.payment__table tr,
+.payment__table td {
+    vertical-align: text-top;
+    background-color: #ffffff;
+}
+
+.ship__head,
+.pay__head {
+    width: 100%;
+    border: 0;
+    padding: 5;
+    border-spacing: 0;
+}
+
+.invoice__orders,
+.ship__table,
+.payment,
+.card__table {
+    width: 100%;
+    border: 0;
+    padding: 2;
+    border-spacing: 0;
+}
+
+.order__price-th,
+.order__price-td,
+.payment__detail,
+.payment__detail-td {
+    border: 0;
+    padding: 2;
+    border-spacing: 0;
+    text-align: right;
+}
+
+.order__item-table {
+    width: 100%;
+    border: 0;
+    padding: 0;
+    border-spacing: 2;
+}
+
+.order__item-td {
+    text-align: right;
+    vertical-align: text-top;
+}
+
+
+.tiny {
+    font-size: 0.7rem;
+}
+
+.order__item-price {
+    text-align: right;
+    vertical-align: text-top;
+    width: 20%;
+}
+
+.addrUL {
+    list-style-type: none;
+}
+
+.Dummy1 {
+    text-align: right;
+}
+
+.pay__breakdown,
+.card__info,
+.Dummy2 {
+    border: 0;
+    padding: 0;
+    border-spacing: 1;
+}
+
+.payment__table {
+    width: 100%;
+    border: 0;
+    border-spacing: 3;
+    padding: 0;
+    text-align: left;
+    background-color: #000000;
+}
+
+.pay__breakdown td,
+.card__info td {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.card__header {
+    text-align: left;
+}

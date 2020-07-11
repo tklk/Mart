@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator/check');
-const Product = require('../../models/product');
+const Product = require('../../models/productModel');
+const User = require('../../models/userModel');
 const { get500 } = require('../../util/error');
 
 exports.getAddProduct = (req, res, next) => {
@@ -50,13 +51,15 @@ exports.postAddProduct = async (req, res, next) => {
             validationErrors: errors.array()
         });
     }
-  
+    
+    const user = await User.findById(req.user);
     const product = new Product({
         title: title,
         price: price,
         description: description,
         imageUrl: image,
-        userId: req.user
+        userId: req.user,
+        userName: user.email.split('@')[0]
     });
   
     try {

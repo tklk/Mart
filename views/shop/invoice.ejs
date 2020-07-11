@@ -1,229 +1,267 @@
-<td>
-    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-        <tbody>
-            <tr><td valign="top" align="left">
-                <b>Order Placed:</b>
-                <%= order.date %>
-            </td></tr>
-            <tr><td valign="top" align="left">
-                <b>Mart77 order number:</b>
-                <%= order.id %>
-            </td></tr>
-            <tr><td valign="top" align="left">
-                <b>Order Total: $<%= order.sum %></b>
-            </td></tr>
-        </tbody>
-    </table>
-    <br>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#000000" align="center">
-    <tbody>
-        <tr bgcolor="#000000"><td>
-        <table width="100%" border="0" cellspacing="3" cellpadding="0" align="center" bgcolor="#000000">
-            <tbody>
-                <tr bgcolor="#ffffff"><td valign="top" colspan="2">
-                <table width="100%" border="0" cellspacing="0" cellpadding="5">
-                    <tbody>
-                        <tr bgcolor="#ffffff"><td>
-                        <b class="sans"><center>Shipped on <%= order.shipdate %></center></b>
-                        </td></tr>
-                    </tbody>
-                </table>
-                </td></tr>
-                <tr><td bgcolor="#ffffff" valign="top" colspan="2">
-                <table width="100%" border="0" cellspacing="0" cellpadding="2">
-                    <tbody>
-                        <tr valign="top"><td width="100%">
-                        <table border="0" cellspacing="0" cellpadding="2" align="right">
-                            <tbody>
-                                <tr valign="top"><td align="right">
-                                    &nbsp;
-                                </td></tr>
-                            </tbody>
-                        </table>
-                        <table border="0" cellspacing="2" cellpadding="0" width="100%">
-                            <tbody>
-                                <tr valign="top"><td valign="top">
-                                    <b>Items Ordered</b>
-                                </td><td align="right" valign="top">
-                                    <b>Price</b>
-                                </td></tr>
-                                <tr><input type="hidden" name="lgqgqsllprtpsnyjiptrq46410961" value="1">
-                                    <% for (let product of prods) { %>
-                                        <td colspan="1" valign="top">    
-                                            <%= product.qty %>
-                                            of:
-                                            <i><%= product.title %></i><br>
-                                            <span class="tiny">
-                                                Sold by: Mart77
-                                                <br><br>
-                                                Condition: New
-                                                <br>
-                                            </span>
-                                        </td>
-                                        <td align="right" valign="top" colspan="2">
-                                            $<%= product.price %><br>
-                                        </td>
-                                    <% } %>
-                                    Dummy start
-                                    <td colspan="1" valign="top">    
-                                        1
-                                        of:
-                                        <i>AmazonBasics Wireless Computer Keyboard and Mouse Combo - Quiet and Compact - US Layout (QWERTY)</i><br>
-                                        <span class="tiny">
-                                            Sold by: Amazon.com Services LLC
-                                            <br><br>
-                                            Condition: New
-                                            <br>
-                                        </span>
-                                    </td>
-                                    <td align="right" valign="top" colspan="2">
-                                        $26.49<br>
-                                    </td>
-                                    Dummy end
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        </td></tr>
-                    </tbody>
-                </table>
-                </td></tr>
-                <tr><td bgcolor="#ffffff" valign="top" colspan="2">
-                <table width="100%" border="0" cellspacing="0" cellpadding="2">
-                    <tbody>
-                        <tr><td>
-                        <b>Shipping Address:</b>
-                        <br>
-                        <div class="displayAddressDiv">
-                            <ul class="displayAddressUL">
-                                <li class="displayAddressLI displayAddressFullName"><%= order.name %></li>
-                                <li class="displayAddressLI displayAddressAddressLine1"><%= order.addr1 %></li>
-                                <li class="displayAddressLI displayAddressCityStateOrRegionPostalCode"><%= order.addr2 %></li>
-                                <li class="displayAddressLI displayAddressCountryName"><%= order.cty %></li>
-                            </ul>
-                        </div>
-                        <br>
-                        <b>Shipping Speed:</b>
-                        <br>
-                        One-Day Shipping
-                        <br>
-                        </td>
-                        <td align="right">
-                        <table border="0" cellpadding="0" cellspacing="1"></table>
-                        </td>
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/invoice.css">
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+    <table class="invoice">
+        <th>
+            <h2>Invoice for Order # <%= order._id %></h1>
+            <h3><a href="#" onclick="javascript:window.print();">Print Invoice</a><h3>
+        </th>
+        <tr>
+            <td>
+                <table class="invoice__head" >
+                    <tbody class="invoice__head__desc">
+                        <tr>
+                            <td>
+                                <b>Order Placed:</b>
+                                <%= order.created_at.getMonth() + 1 %>/<%= order.created_at.getDate() %> <%= order.created_at.getFullYear() %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <b>Mart77 order number:</b><%= order._id %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Order Total: $<%= order.billing.total %></b>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                </td></tr>
-            </tbody>
-        </table>
-        </td></tr>
-    </tbody>
-</table>
-<br>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#000000" align="center">
-    <tbody>
-        <tr bgcolor="#000000"><td>
-        <table width="100%" border="0" cellspacing="3" cellpadding="0" align="center" bgcolor="#000000">
-            <tbody>
-                <tr bgcolor="#ffffff"><td valign="top" colspan="2">
-                <table width="100%" border="0" cellspacing="0" cellpadding="5">
-                    <tbody>
-                        <tr bgcolor="#ffffff"><td>
-                            <b class="sans"><center>Payment information</center></b>
-                        </td></tr>
-                    </tbody>
-                </table>
-                </td></tr>
-                <tr><td bgcolor="#ffffff" valign="top" colspan="2">
-                <table width="100%" border="0" cellspacing="0" cellpadding="2">
-                    <tbody>
-                        <tr valign="top"><td width="100%">
-                        <table border="0" cellspacing="0" cellpadding="2" align="right">
-                            <tbody>
-                                <tr valign="top"><td align="right">
-                                <table border="0" cellpadding="0" cellspacing="1">
-                                    <tbody>
-                                        <tr valign="top">
-                                            <td nowrap="nowrap" align="right">Item(s) Subtotal: </td>
-                                            <td nowrap="nowrap" align="right">$<%= order.subtotal %></td>
-                                        </tr> 
-                                        <tr valign="top">
-                                            <td nowrap="nowrap" align="right">Shipping &amp; Handling:</td>
-                                            <td nowrap="nowrap" align="right">$<%= order.fee %></td>
-                                        </tr>  
-                                        <tr valign="top">
-                                            <td nowrap="nowrap" align="right">&nbsp;</td>
-                                            <td nowrap="nowrap" align="right">-----</td>
-                                        </tr> 
-                                        <tr valign="top">
-                                            <td nowrap="nowrap" align="right">Total before tax:</td>
-                                            <td nowrap="nowrap" align="right">$<%= order.pretax %></td>
-                                        </tr>                                
-                                        <tr valign="top">
-                                            <td nowrap="nowrap" align="right">Estimated tax to be collected:</td>
-                                            <td nowrap="nowrap" align="right">$<%= order.tax %></td>
-                                        </tr>                                
-                                        <tr valign="top">
-                                            <td nowrap="nowrap" align="right">&nbsp;</td>
-                                            <td nowrap="nowrap" align="right">-----</td>
-                                        </tr>                                
-                                        <tr valign="top">
-                                            <td nowrap="nowrap" align="right"><b>Grand Total:</b></td>
-                                            <td nowrap="nowrap" align="right"><b>$<%= order.total %></b></td>
-                                        </tr> 
-                                    </tbody>
-                                </table>
-                                </td></tr>
-                            </tbody>
-                        </table>
-                        <b>Payment Method: </b>
-                        <br>
-                        Visa
-                        <nobr> | Last digits:  <%= billing.digit %></nobr>
-                        <br> 
-                        <br>
-                        <b>Billing address</b>
-                        <div class="displayAddressDiv">
-                            <ul class="displayAddressUL">
-                                <li class="displayAddressLI displayAddressFullName"><%= billing.name %></li>
-                                <li class="displayAddressLI displayAddressAddressLine1"><%= billing.addr1 %></li>
-                                <li class="displayAddressLI displayAddressCityStateOrRegionPostalCode"><%= billing.addr2 %></li>
-                                <li class="displayAddressLI displayAddressCountryName"><%= billing.cty %></li>
-                            </ul>
-                        </div>
-                        </td></tr>
-                    </tbody>
-                </table>
-                </td></tr>
-                <tr><td bgcolor="#ffffff" valign="top" colspan="2">
-                <table width="100%" border="0" cellspacing="0" cellpadding="2">
+                <br>
+                <table class="order__summary">
                     <tbody>
                         <tr>
-                            <td valign="top">
-                                <div style="text-align:left;"><b>Credit Card transactions&nbsp;</b></div>
-                            </td>
-                            <td align="right">                  
-                            <table border="0" cellpadding="0" cellspacing="1">
-                                <tbody>
-                                    <tr valign="top">
-                                        <td nowrap="nowrap" align="right">
-                                            Visa ending in <%= billing.digit %>:&nbsp;<%= order.date %>:
-                                        </td>
-                                        <td nowrap="nowrap" align="right" colspan="2">
-                                            $<%= order.total %>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <td>
+                                <table class="order__table" >
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <table class="ship__head">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <b class="">
+                                                                    <center>                                                                    
+                                                                        Shipped on <%= order.created_at.getMonth() + 1 %>/<%= order.created_at.getDate() %> <%= order.created_at.getFullYear() %>
+                                                                    </center>
+                                                                </b>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <table class="invoice__orders">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <table class="order__price-th">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="order__price-td">
+                                                                                &nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <table class="order__item-table">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <b>Items Ordered</b>
+                                                                            </td>
+                                                                            <td class="order__item-td">
+                                                                                <b>Price</b>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% for (let prod of order.products) { %>
+                                                                            <tr>
+                                                                                <input type="hidden" name="pid" value="<%= prod.product._id %>" >                                    
+                                                                                <td class="order__item-detail" colspan="1">    
+                                                                                    <%= prod.quantity %> of: <i><%= prod.product.title %></i><br>
+                                                                                    <span class="tiny">
+                                                                                        Sold by: <a href="/user/<%= prod.product.userId %>"><%= prod.product.userName %></a><br><br>
+                                                                                        Condition: New<br>
+                                                                                    </span>
+                                                                                </td>
+                                                                                <td class="order__item-price" colspan="2">
+                                                                                    $<%= prod.product.price %><br>
+                                                                                </td>
+                                                                            </tr>
+                                                                        <% } %>
+                                                                    </tbody>
+                                                                </table>
+                                                                <br>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <table class="ship__table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <b>Shipping Address:</b>
+                                                                <br>
+                                                                <div class="addrDiv">
+                                                                    <ul class="addrUL">
+                                                                        <li class="addrLI FullName"><%= order.shipAddr.name %></li>
+                                                                        <li class="addrLI AddressLine1"><%= order.shipAddr.addr %></li>
+                                                                        <li class="addrLI CityStateOrRegionPostalCode"><%= order.shipAddr.addr2.city %>, <%= order.shipAddr.addr2.state %>, <%= order.shipAddr.addr2.postcode %></li>
+                                                                        <li class="addrLI CountryName"><%= order.shipAddr.country %></li>
+                                                                    </ul>
+                                                                </div>
+                                                                <br>
+                                                                <b>Shipping Speed:</b>
+                                                                <br>
+                                                                One-Day Shipping
+                                                                <br>
+                                                            </td>
+                                                            <td class="Dummy1">
+                                                                <table class="Dummy2"></table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                </td></tr>
-            </tbody>
-        </table>
-        </td></tr>
-    </tbody>
-</table>
-</td>
+                <br>
+                <table class="payment__summary">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table class="payment__table">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" colspan="2">
+                                                <table class="pay__head">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <b><center>Payment information</center></b>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <table class="payment">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <table class="payment__detail" align="right">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="payment__detail-td">
+                                                                                <table class="pay__breakdown">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>Item(s) Subtotal: </td>
+                                                                                            <td>$<%= order.billing.subtotal %></td>
+                                                                                        </tr> 
+                                                                                        <tr>
+                                                                                            <td>Shipping &amp; Handling:</td>
+                                                                                            <td>$<%= order.billing.fee %></td>
+                                                                                        </tr>  
+                                                                                        <tr>
+                                                                                            <td>&nbsp;</td>
+                                                                                            <td>-----</td>
+                                                                                        </tr> 
+                                                                                        <tr>
+                                                                                            <td>Total before tax:</td>
+                                                                                            <td>$<%= order.billing.pretax %></td>
+                                                                                        </tr>                                
+                                                                                        <tr>
+                                                                                            <td>Estimated tax to be collected:</td>
+                                                                                            <td>$<%= order.billing.tax %></td>
+                                                                                        </tr>                                
+                                                                                        <tr>
+                                                                                            <td>&nbsp;</td>
+                                                                                            <td>-----</td>
+                                                                                        </tr>                                
+                                                                                        <tr>
+                                                                                            <td><b>Grand Total:</b></td>
+                                                                                            <td><b>$<%= order.billing.total %></b></td>
+                                                                                        </tr> 
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <b>Payment Method: </b>
+                                                                <br>
+                                                                Visa
+                                                                <nobr> | Last digits:  <%= order.billing.digit %></nobr>
+                                                                <br> 
+                                                                <br>
+                                                                <b>Billing address</b>
+                                                                <div class="addrDiv">
+                                                                    <ul class="addrUL">
+                                                                        <li class="addrLI FullName"><%= order.billing.billAddr.name %></li>
+                                                                        <li class="addrLI AddressLine1"><%= order.billing.billAddr.addr %></li>
+                                                                        <li class="addrLI CityStateOrRegionPostalCode"><%= order.billing.billAddr.addr2.city %>, <%= order.billing.billAddr.addr2.state %>, <%= order.billing.billAddr.addr2.postcode %></li>
+                                                                        <li class="addrLI CountryName"><%= order.billing.billAddr.country %></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                        </td></tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <table class="card__table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="card__header"><b>Credit Card transactions&nbsp;</b></div>
+                                                            </td>
+                                                            <td align="right">                  
+                                                            <table class="card__info">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Visa ending in <%= order.billing.digit %>:&nbsp;
+                                                                            <%= order.created_at.getMonth() + 1 %>/<%= order.created_at.getDate() %> <%= order.created_at.getFullYear() %>:
+                                                                        </td>
+                                                                        <td colspan="2">
+                                                                            $<%= order.billing.total %>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                        </td></tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</main>
+<%- include('../includes/end.ejs') %>

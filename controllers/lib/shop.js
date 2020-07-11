@@ -4,8 +4,8 @@ const path = require('path');
 const PDFDocument = require('pdfkit');
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 
-const Product = require('../../models/product');
-const Order = require('../../models/order');
+const Product = require('../../models/productModel');
+const Order = require('../../models/orderModel');
 const { get500 } = require('../../util/error');
 const { page } = require('pdfkit');
 
@@ -55,7 +55,7 @@ exports.getIndex = async (req, res, next) => {
     const page = +req.query.page || 1;
     try {
         const totalItems = await Product.find().countDocuments();
-        const products = await Product.find().skip((page - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE);
+        const products = await Product.find().skip((page - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE).sort({ time: -1 });
         res.render('shop/index', {
             prods: products,
             pageTitle: 'Shop',
@@ -146,9 +146,36 @@ exports.postOrder = async (req, res, next) => {
                 email: req.user.email,
                 userId: req.user
             },
-            products: products
+            products: products,
+            shipAddr: {
+                name: user.email.split('@')[0],
+                addr: "360 huntington ave",
+                addr2: {
+                    city: "Boston",
+                    state: "MA",
+                    postcode: "02115",
+                },
+                country: "us"                
+            },
+            billing: {
+                billAddr: {
+                    name: user.email.split('@')[0],
+                    addr: "360 huntington ave",
+                    addr2: {
+                        city: "Boston",
+                        state: "MA",
+                        postcode: "02115",
+                    },
+                    country: "us"                
+                },
+                digit: 4242,
+                subtotal: totalSum,
+                fee: 0,
+                pretax: 0,
+                tax: 0,
+                total: totalSum
+            }
         });
-
         const result = await order.save();
         // Get the payment token ID submitted by the form:
         const customer = await stripe.customers.create({
@@ -194,110 +221,36 @@ exports.getInvoice = async (req, res, next) => {
         if (order.user.userId.toString() !== req.user._id.toString()) {
             return next(new Error('Unauthorized'));
         }
-        console.log(order);
-        /*
-        To-Do: 
-            1. Prepare 
-                order: {
-                    id: order.id,
-                    date: order.created_at,
-                    sum: totalsum * 100,
-                    shipdate: order.created_at + 24 * 3600 * 1000,                    
-                    name: email.spilt('@')[0],
-                    addr1: '360 huntington ave',
-                    addr2: 'Boston, MA 02115',
-                    cty: 'us,
-                    subtotal: totalsum * 100,
-                    fee: 'shipping fee',
-                    pretax: totalsum * 100,
-                    tax: totalsum * 6.25,
-                    total: subtotal + fee + pretax + tax,
-                },
-                prods: {
-                    title: xxx,
-                    qty: xxx,
-                    price: xxx,
-                    id: xxxx,
-                    seller: email.spilt('@')[0]
-                },
-                billing: {
-                    digit: '4242',
-                    name: email.spilt('@')[0],
-                    addr1: '360 huntington ave',
-                    addr2: 'Boston, MA 02115',
-                    cty: 'us
-                }
-            2. render page
-        */
-        res.render('/shop/invoice', {
-            path: '/invoice',
-            pageTitle: 'Order: '+order.id,
+        res.render('shop/invoice', {
+            path: '/shop/invoice',
+            pageTitle: 'Invoice: '+order.id,
             order: order
         })
-        //res.redirect('/')
     } catch (err) {
-        next(err);
+        return next(get500(err));
     }
 };
 
-exports.getInv = async (req, res, next) => {
-    const orderId = req.params.orderId;
+exports.getUserMart = async (req, res, next) => {
+    const page = +req.query.page || 1;
+    const query = { "userId": req.user._id };
     try {
-        const order = await Order.findById(orderId);
-        if (!order) {
-            return next(new Error('No order found.'));
-        }
-        if (order.user.userId.toString() !== req.user._id.toString()) {
-            return next(new Error('Unauthorized'));
-        }
-        const invoiceName = 'invoice-' + orderId + '.pdf';
-        const invoicePath = path.join('data', 'invoices', invoiceName);
-        const pdfDoc = new PDFDocument();
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader(
-            'Content-Disposition',
-            'inline; filename="' + invoiceName + '"'
-        );
-        pdfDoc.pipe(fs.createWriteStream(invoicePath));
-        pdfDoc.pipe(res);
-
-        pdfDoc.fontSize(26).text('Invoice', {
-            underline: true
+        const totalItems = await Product.find(query).countDocuments();
+        const products = await Product.find(query).skip((page - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE).sort({ time: -1 });
+        console.log(products)
+        res.render('shop/product-list', {
+            prods: products,
+            pageTitle: products[0].userName + "'s Mart",
+            path: '/products',
+            pageInfo: {
+                currentPage: page,
+                nextPage: page + 1,
+                previousPage: page - 1,
+                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+                type: ''
+            }
         });
-        pdfDoc.text('-----------------------');
-        let totalPrice = 0;
-        order.products.forEach(prod => {
-            totalPrice += prod.quantity * prod.product.price;
-            pdfDoc
-                .fontSize(14)
-                .text(
-                prod.product.title +
-                    ' - ' +
-                    prod.quantity +
-                    ' x ' +
-                    '$' +
-                    prod.product.price
-                );
-        });
-        pdfDoc.text('---');
-        pdfDoc.fontSize(20).text('Total Price: $' + totalPrice);
-
-        pdfDoc.end();
-        // fs.readFile(invoicePath, (err, data) => {
-        //   if (err) {
-        //     return next(err);
-        //   }
-        //   res.setHeader('Content-Type', 'application/pdf');
-        //   res.setHeader(
-        //     'Content-Disposition',
-        //     'inline; filename="' + invoiceName + '"'
-        //   );
-        //   res.send(data);
-        // });
-        // const file = fs.createReadStream(invoicePath);
-
-        // file.pipe(res);
     } catch (err) {
-        next(err);
+        return next(get500(err));
     }
 };

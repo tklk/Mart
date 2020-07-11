@@ -19,12 +19,13 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 const morgan = require('morgan');
-const accessLogStream = fs.createWriteStream( path.join(__dirname, 'logs', 'access.log'), { flags: 'a' });
-const errorLogStream = fs.createWriteStream( path.join(__dirname, 'logs', '/error.log'), { flags: 'a' });
 
 app.use(helmet()); // protection
 app.use(compression()); // asset compression
-app.use(morgan('combined', { stream: accessLogStream }));
+if (app.settings.env === "development" ) {
+    const accessLogStream = fs.createWriteStream( path.join(__dirname, 'logs', '/access.log'), { flags: 'a' });
+    app.use(morgan('combined', { stream: accessLogStream }));
+}
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -44,7 +45,7 @@ app.use((req, res, next) => {
     next();
 });
 
-const User = require('./models/user');
+const User = require('./models/userModel');
 app.use(async (req, res, next) => {
     if (!req.session.user) {
         return next();
@@ -78,8 +79,12 @@ app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
 app.use((err, req, res, next) => {
-    const meta = '[' + new Date() + '] ' + req.url + '\n';
-    errorLogStream.write(meta + err.stack + '\n');
+    if (app.settings.env === "development" ) {
+        errorLogStream = fs.createWriteStream( path.join(__dirname, 'logs', '/error.log'), { flags: 'a' });
+        const meta = '[' + new Date() + '] ' + req.url + '\n';
+        errorLogStream.write(meta + err.stack + '\n');
+    }
+    
     res.status(500).render('500', {
         pageTitle: 'Error!',
         path: '/500',

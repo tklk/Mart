@@ -34,5 +34,5 @@ shop.get('/orders', isAuth, shopController.getOrders);
 // /orders/:orderId => GET
 shop.get('/orders/:orderId', isAuth, shopController.getInvoice);
 
-// /invoices/:invoicesId => GET
-shop.get('/invoices/:invoicesId', isAuth, shopController.getInv);
+// /user/:userId => GET
+shop.get('/user/:userId', isAuth, shopController.getUserMart);
