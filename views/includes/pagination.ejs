@@ -1,0 +1,48 @@
+<section class="pagination">
+    <% if (pageInfo.currentPage !== 1 && pageInfo.previousPage !== 1 ) { %>
+        <a title="First" 
+            href="<% if (pageInfo.type === 'search') { %>
+                    /search?keyword=<%= pageInfo.keyword %>&page=1
+                <% } else { %>
+                    ?page=1 
+                <% } %>">First
+        </a>
+    <% } %>
+    <% if (pageInfo.currentPage !== 1) { %>
+        <a title="Previous" 
+            href="<% if (pageInfo.type === 'search') { %>
+                    /search?keyword=<%= pageInfo.keyword %>&page=<%= pageInfo.currentPage-1 %>
+                <% } else { %>
+                    ?page=<%= pageInfo.currentPage-1 %> 
+                <% } %>">
+            <i class="fas fa-chevron-circle-left"></i>
+        </a>
+    <% } %>
+    <a href="<% if (pageInfo.type === 'search') { %>
+                /search?keyword=<%= pageInfo.keyword %>&page=<%= pageInfo.currentPage %>
+            <% } else { %>
+                ?page=<%= pageInfo.currentPage %> 
+            <% } %>"
+        class="active"><%= pageInfo.currentPage %>
+    </a>
+    <% if (pageInfo.lastPage !== pageInfo.currentPage) { %>
+        <a title="Next" 
+            href="<% if (pageInfo.type === 'search') { %>
+                    /search?keyword=<%= pageInfo.keyword %>&page=<%= pageInfo.currentPage+1 %>
+                <% } else { %>
+                    ?page=<%= pageInfo.currentPage+1 %>
+                <% } %>">
+            <i class="fas fa-chevron-circle-right"></i>
+        </a>
+    <% } %>
+    <% if (pageInfo.lastPage !== pageInfo.currentPage && pageInfo.nextPage !== pageInfo.lastPage) { %>
+        <a title="Last" 
+            href=
+            "<% if (pageInfo.type === 'search') { %>
+                /search?keyword=<%= pageInfo.keyword %>&page=<%= pageInfo.lastPage %>
+            <% } else { %>
+                ?page=<%= pageInfo.lastPage %> 
+            <% } %>">Last
+        </a>
+    <% } %>
+</section>

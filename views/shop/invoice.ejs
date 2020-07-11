@@ -1,0 +1,229 @@
+<td>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr><td valign="top" align="left">
+                <b>Order Placed:</b>
+                <%= order.date %>
+            </td></tr>
+            <tr><td valign="top" align="left">
+                <b>Mart77 order number:</b>
+                <%= order.id %>
+            </td></tr>
+            <tr><td valign="top" align="left">
+                <b>Order Total: $<%= order.sum %></b>
+            </td></tr>
+        </tbody>
+    </table>
+    <br>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#000000" align="center">
+    <tbody>
+        <tr bgcolor="#000000"><td>
+        <table width="100%" border="0" cellspacing="3" cellpadding="0" align="center" bgcolor="#000000">
+            <tbody>
+                <tr bgcolor="#ffffff"><td valign="top" colspan="2">
+                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                    <tbody>
+                        <tr bgcolor="#ffffff"><td>
+                        <b class="sans"><center>Shipped on <%= order.shipdate %></center></b>
+                        </td></tr>
+                    </tbody>
+                </table>
+                </td></tr>
+                <tr><td bgcolor="#ffffff" valign="top" colspan="2">
+                <table width="100%" border="0" cellspacing="0" cellpadding="2">
+                    <tbody>
+                        <tr valign="top"><td width="100%">
+                        <table border="0" cellspacing="0" cellpadding="2" align="right">
+                            <tbody>
+                                <tr valign="top"><td align="right">
+                                    &nbsp;
+                                </td></tr>
+                            </tbody>
+                        </table>
+                        <table border="0" cellspacing="2" cellpadding="0" width="100%">
+                            <tbody>
+                                <tr valign="top"><td valign="top">
+                                    <b>Items Ordered</b>
+                                </td><td align="right" valign="top">
+                                    <b>Price</b>
+                                </td></tr>
+                                <tr><input type="hidden" name="lgqgqsllprtpsnyjiptrq46410961" value="1">
+                                    <% for (let product of prods) { %>
+                                        <td colspan="1" valign="top">    
+                                            <%= product.qty %>
+                                            of:
+                                            <i><%= product.title %></i><br>
+                                            <span class="tiny">
+                                                Sold by: Mart77
+                                                <br><br>
+                                                Condition: New
+                                                <br>
+                                            </span>
+                                        </td>
+                                        <td align="right" valign="top" colspan="2">
+                                            $<%= product.price %><br>
+                                        </td>
+                                    <% } %>
+                                    Dummy start
+                                    <td colspan="1" valign="top">    
+                                        1
+                                        of:
+                                        <i>AmazonBasics Wireless Computer Keyboard and Mouse Combo - Quiet and Compact - US Layout (QWERTY)</i><br>
+                                        <span class="tiny">
+                                            Sold by: Amazon.com Services LLC
+                                            <br><br>
+                                            Condition: New
+                                            <br>
+                                        </span>
+                                    </td>
+                                    <td align="right" valign="top" colspan="2">
+                                        $26.49<br>
+                                    </td>
+                                    Dummy end
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        </td></tr>
+                    </tbody>
+                </table>
+                </td></tr>
+                <tr><td bgcolor="#ffffff" valign="top" colspan="2">
+                <table width="100%" border="0" cellspacing="0" cellpadding="2">
+                    <tbody>
+                        <tr><td>
+                        <b>Shipping Address:</b>
+                        <br>
+                        <div class="displayAddressDiv">
+                            <ul class="displayAddressUL">
+                                <li class="displayAddressLI displayAddressFullName"><%= order.name %></li>
+                                <li class="displayAddressLI displayAddressAddressLine1"><%= order.addr1 %></li>
+                                <li class="displayAddressLI displayAddressCityStateOrRegionPostalCode"><%= order.addr2 %></li>
+                                <li class="displayAddressLI displayAddressCountryName"><%= order.cty %></li>
+                            </ul>
+                        </div>
+                        <br>
+                        <b>Shipping Speed:</b>
+                        <br>
+                        One-Day Shipping
+                        <br>
+                        </td>
+                        <td align="right">
+                        <table border="0" cellpadding="0" cellspacing="1"></table>
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </td></tr>
+            </tbody>
+        </table>
+        </td></tr>
+    </tbody>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#000000" align="center">
+    <tbody>
+        <tr bgcolor="#000000"><td>
+        <table width="100%" border="0" cellspacing="3" cellpadding="0" align="center" bgcolor="#000000">
+            <tbody>
+                <tr bgcolor="#ffffff"><td valign="top" colspan="2">
+                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                    <tbody>
+                        <tr bgcolor="#ffffff"><td>
+                            <b class="sans"><center>Payment information</center></b>
+                        </td></tr>
+                    </tbody>
+                </table>
+                </td></tr>
+                <tr><td bgcolor="#ffffff" valign="top" colspan="2">
+                <table width="100%" border="0" cellspacing="0" cellpadding="2">
+                    <tbody>
+                        <tr valign="top"><td width="100%">
+                        <table border="0" cellspacing="0" cellpadding="2" align="right">
+                            <tbody>
+                                <tr valign="top"><td align="right">
+                                <table border="0" cellpadding="0" cellspacing="1">
+                                    <tbody>
+                                        <tr valign="top">
+                                            <td nowrap="nowrap" align="right">Item(s) Subtotal: </td>
+                                            <td nowrap="nowrap" align="right">$<%= order.subtotal %></td>
+                                        </tr> 
+                                        <tr valign="top">
+                                            <td nowrap="nowrap" align="right">Shipping &amp; Handling:</td>
+                                            <td nowrap="nowrap" align="right">$<%= order.fee %></td>
+                                        </tr>  
+                                        <tr valign="top">
+                                            <td nowrap="nowrap" align="right">&nbsp;</td>
+                                            <td nowrap="nowrap" align="right">-----</td>
+                                        </tr> 
+                                        <tr valign="top">
+                                            <td nowrap="nowrap" align="right">Total before tax:</td>
+                                            <td nowrap="nowrap" align="right">$<%= order.pretax %></td>
+                                        </tr>                                
+                                        <tr valign="top">
+                                            <td nowrap="nowrap" align="right">Estimated tax to be collected:</td>
+                                            <td nowrap="nowrap" align="right">$<%= order.tax %></td>
+                                        </tr>                                
+                                        <tr valign="top">
+                                            <td nowrap="nowrap" align="right">&nbsp;</td>
+                                            <td nowrap="nowrap" align="right">-----</td>
+                                        </tr>                                
+                                        <tr valign="top">
+                                            <td nowrap="nowrap" align="right"><b>Grand Total:</b></td>
+                                            <td nowrap="nowrap" align="right"><b>$<%= order.total %></b></td>
+                                        </tr> 
+                                    </tbody>
+                                </table>
+                                </td></tr>
+                            </tbody>
+                        </table>
+                        <b>Payment Method: </b>
+                        <br>
+                        Visa
+                        <nobr> | Last digits:  <%= billing.digit %></nobr>
+                        <br> 
+                        <br>
+                        <b>Billing address</b>
+                        <div class="displayAddressDiv">
+                            <ul class="displayAddressUL">
+                                <li class="displayAddressLI displayAddressFullName"><%= billing.name %></li>
+                                <li class="displayAddressLI displayAddressAddressLine1"><%= billing.addr1 %></li>
+                                <li class="displayAddressLI displayAddressCityStateOrRegionPostalCode"><%= billing.addr2 %></li>
+                                <li class="displayAddressLI displayAddressCountryName"><%= billing.cty %></li>
+                            </ul>
+                        </div>
+                        </td></tr>
+                    </tbody>
+                </table>
+                </td></tr>
+                <tr><td bgcolor="#ffffff" valign="top" colspan="2">
+                <table width="100%" border="0" cellspacing="0" cellpadding="2">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+                                <div style="text-align:left;"><b>Credit Card transactions&nbsp;</b></div>
+                            </td>
+                            <td align="right">                  
+                            <table border="0" cellpadding="0" cellspacing="1">
+                                <tbody>
+                                    <tr valign="top">
+                                        <td nowrap="nowrap" align="right">
+                                            Visa ending in <%= billing.digit %>:&nbsp;<%= order.date %>:
+                                        </td>
+                                        <td nowrap="nowrap" align="right" colspan="2">
+                                            $<%= order.total %>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </td></tr>
+            </tbody>
+        </table>
+        </td></tr>
+    </tbody>
+</table>
+</td>

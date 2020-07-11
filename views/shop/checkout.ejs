@@ -1,0 +1,40 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/cart.css">
+    
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <ul class="cart__item-list">
+                <% products.forEach(p => { %>
+                    <li class="cart__item">
+                        <h1><%= p.productId.title %></h1>
+                        <h2>Quantity: <%= p.quantity %></h2>
+                    </li>
+                <% }) %>
+            </ul>
+            <div class="centered">
+                <h2>Total: <%= totalSum %></h2>
+                <h3>Testing credit card number is: 4242 4242 4242 4242 </br >
+                    valid through: any future date </br >
+                    cvv: any 3 digit</h3>
+            </div>
+            <div class="centered">
+                <form action="/create-order" method="POST">
+                    <script
+                      src="https://checkout.stripe.com/checkout.js"
+                      class="stripe-button"
+                      data-key="pk_test_51H2UgjGt5sRhWEdsfGEjWhAhU7G4PGfxARFYIztEj0mu4qDLdyzfRzHjr8caFW0mKXC7EmyI6VplILlrqL7Pbrzj00tG6PKOgM"
+                      data-amount="<%= totalSum * 100 %>"
+                      data-name="Your Order"
+                      data-description="All the items you ordered"
+                      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                      data-locale="auto"
+                      data-currency="usd">
+                    </script>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                </form>
+            </div>
+        </main>
+        <%- include('../includes/end.ejs') %>

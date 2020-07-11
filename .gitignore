@@ -1,0 +1,8 @@
+# .gitignore
+node_modules
+nodemon.json
+
+# dev
+*.log
+/.vscode/*
+/record/dev_data
