@@ -1,4 +1,8 @@
 ## Mart77 Changelog
+<a name="0.0.3"></a>
+# 0.0.3 (2020-07-19)
+* Create initDB.js
+
 <a name="0.0.2"></a>
 # 0.0.2 (2020-07-11)
 * Upadate Invoice function:

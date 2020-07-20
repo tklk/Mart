@@ -44,7 +44,7 @@ auth.post('/signup',
                 return true;
             })
     ],
-  authController.postSignup
+    authController.postSignup
 );
 
 // /login => GET

@@ -13,6 +13,9 @@ shop.get('/search', shopController.getSearch);
 // /products/:productId => GET
 shop.get('/products/:productId', shopController.getProduct);
 
+// /user/:userId => GET
+shop.get('/user/:userId', shopController.getUserMart);
+
 // /cart => GET
 shop.get('/cart', isAuth, shopController.getCart);
 
@@ -33,6 +36,3 @@ shop.get('/orders', isAuth, shopController.getOrders);
 
 // /orders/:orderId => GET
 shop.get('/orders/:orderId', isAuth, shopController.getInvoice);
-
-// /user/:userId => GET
-shop.get('/user/:userId', isAuth, shopController.getUserMart);

@@ -189,7 +189,7 @@ exports.postReset = (req, res, next) => {
             await user.save();
     
             res.redirect('/');
-            const addr = req.protocol + '://' + req.get('host') + '/reset'; // => http://localhost:5000/reset/xxx
+            const addr = req.protocol + '://' + req.get('host') + '/reset'; // => http://localhost:8080/reset/xxx
             return transporter.sendMail({
                 to: req.body.email,
                 from: 'liudingdeveloper@gmail.com',

@@ -1,13 +1,7 @@
-const fs = require('fs');
-const path = require('path');
-
-const PDFDocument = require('pdfkit');
 const stripe = require('stripe')(process.env.STRIPE_KEY);
-
 const Product = require('../../models/productModel');
 const Order = require('../../models/orderModel');
 const { get500 } = require('../../util/error');
-const { page } = require('pdfkit');
 
 const ITEMS_PER_PAGE = 3;
 
@@ -19,6 +13,29 @@ exports.getProduct = async (req, res, next) => {
             product: product,
             pageTitle: product.title,
             path: '/products'
+        });
+    } catch (err) {
+        return next(get500(err));
+    }
+};
+
+exports.getUserMart = async (req, res, next) => {
+    const page = +req.query.page || 1;
+    const query = { "userId": req.params.userId };
+    try {
+        const totalItems = await Product.find(query).countDocuments();
+        const products = await Product.find(query).skip((page - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE).sort({ time: -1 });
+        res.render('shop/product-list', {
+            prods: products,
+            pageTitle: products[0].userName + "'s Mart",
+            path: '/products',
+            pageInfo: {
+                currentPage: page,
+                nextPage: page + 1,
+                previousPage: page - 1,
+                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+                type: ''
+            }
         });
     } catch (err) {
         return next(get500(err));
@@ -226,30 +243,6 @@ exports.getInvoice = async (req, res, next) => {
             pageTitle: 'Invoice: '+order.id,
             order: order
         })
-    } catch (err) {
-        return next(get500(err));
-    }
-};
-
-exports.getUserMart = async (req, res, next) => {
-    const page = +req.query.page || 1;
-    const query = { "userId": req.user._id };
-    try {
-        const totalItems = await Product.find(query).countDocuments();
-        const products = await Product.find(query).skip((page - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE).sort({ time: -1 });
-        console.log(products)
-        res.render('shop/product-list', {
-            prods: products,
-            pageTitle: products[0].userName + "'s Mart",
-            path: '/products',
-            pageInfo: {
-                currentPage: page,
-                nextPage: page + 1,
-                previousPage: page - 1,
-                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
-                type: ''
-            }
-        });
     } catch (err) {
         return next(get500(err));
     }
